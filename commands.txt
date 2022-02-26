@@ -1,0 +1,5 @@
+curl -X POST "http://localhost:8888/RADAR-COMMAND-SIDE-SERVICE/commands/radar/create" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"name\":\"R4\",\"longitude\":0.5,\"latitude\":3,\"altitude\":2.4,\"maxSpeed\":80,\"roadDesignation\":\"A2\",\"radarStatus\":\"ACTIVE\"}"
+
+curl -X POST "http://localhost:8888/RADAR-COMMAND-SIDE-SERVICE/commands/radar/overSpeed" -H  "accept: */*" -H  "Content-Type: application/json" -d "{\"radarId\":\"36e186a4-73bd-4067-a523-3cb65aff8aea\",\"vehicleRegistrationNumber\":\"2315-A-14\",\"vehicleSpeed\":120}"
+
+curl -X POST http://localhost:8080/commands/radar/changeSpeedLimit -H 'Content-Type: application/json'-d '{"radarId":"36e186a4-73bd-4067-a523-3cb65aff8aea","speed":"87"}'
