@@ -6,6 +6,8 @@ import ma.enset.contraventionqueryservice.repositories.ContraventionRepository;
 import ma.enset.coreapi.GetAllContraventions;
 import ma.enset.coreapi.GetContraventionsByNationalCardNumber;
 import org.axonframework.queryhandling.QueryHandler;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,12 +20,15 @@ public class ContraventionQueryHandler {
     public ContraventionQueryHandler(ContraventionRepository contraventionRepository) {
         this.contraventionRepository = contraventionRepository;
     }
+
     @QueryHandler
-    public List<Contravention> on(GetAllContraventions query){
-        return contraventionRepository.findAll();
-    }
-    @QueryHandler
-    public List<Contravention> on(GetContraventionsByNationalCardNumber query){
-        return contraventionRepository.findAllByOwnerNationalCardId(query.getNationalCardNumber());
+    public Page on(GetContraventionsByNationalCardNumber query){
+        log.info(query.getNationalCardNumber());
+        if(query.getNationalCardNumber().equals(null) ||
+        query.getNationalCardNumber().equals("") ||
+        query.getNationalCardNumber().equals("undefined")){
+            return contraventionRepository.findAll(PageRequest.of(query.getPage(),query.getSize()));
+        }
+        else return contraventionRepository.findAllByOwnerNationalCardId(query.getNationalCardNumber(), PageRequest.of(query.getPage(), query.getSize()));
     }
 }
